@@ -5,7 +5,9 @@
 ## Ping Sweeping
 echo "========== Ping sweep in progress... =========="
 
-echo sort | fping -a -g 192.168.1.1 192.168.1.254 > hosts.txt
+#Fetch the network of the device that is connected
+NETWORK=`ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2 | cut -d. -f1-3`
+echo sort | fping -a -g "$NETWORK".1 "$NETWORK".254 > hosts.txt
 
 echo "========== Done ping sweep =========="
 
@@ -13,6 +15,6 @@ echo "========== Done ping sweep =========="
 ## Port Scanning
 echo "========== Port scanning in progress...=========="
 
-python hosts.txt
+python portScanner.py hosts.txt
 
 echo "========== Done port scanning =========="
